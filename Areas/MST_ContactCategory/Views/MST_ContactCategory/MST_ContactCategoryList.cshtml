@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "MST_ContactCategoryList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data
+@model DataTable
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a asp-controller="MST_ContactCategory" asp-action="Index">ContactCategory List</a>
+            <i class="fa fa-circle"></i>
+        </li>
+    </ul>
+</div>
+
+
+<div>
+    <h3>Filter</h3>
+    <form method="post" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Filter">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="search" name="CategoryName" class="form-control" placeholder="Category Name">
+            </div>
+            <div class="col-md-4 d-inline">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a class="btn btn-primary" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Cancel">Clear Filter</a>
+            </div>
+        </div>
+    </form>
+</div>
+<br />
+<hr />
+
+
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+<div class="portlet light bordered margin-top-10">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            @*<i class="icon-settings font-dark"></i>*@
+            <span class="caption-subject bold uppercase">ContactCategory List</span>
+        </div>
+        <div class="actions">
+            <div class="btn-group btn-group-devided">
+                <a asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Add" class="btn green btn-rounded"><i class="fa fa-plus"></i>&nbsp;Add Category</a>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="pull-right">
+            <div id="sample_1_filter" class="dataTables_filter">
+                <label>Search Any&nbsp;<input type="text" class="form-control input-sm input-small input-inline" id="sample_1"></label>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+            <thead>
+                <tr class="">
+                    <th>CategoryName</th>
+                    <th class="text-center">Created</th>
+                    <th class="text-center">Modified</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="sample_2">
+                @foreach (DataRow dr in Model.Rows)
+                {
+                    <tr>
+                        <td>@dr["CategoryName"]</td>
+                        <td class="text-center">@Convert.ToDateTime(dr["Created"]).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                        <td class="text-center">@Convert.ToDateTime(dr["Modified"]).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                        <td class="text-center">
+                            <form method="post" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Delete">
+                                <input type="hidden" name="CategoryID" value="@Convert.ToInt32(dr["CategoryID"])">
+                                <a class="btn btn-info btn-xs" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Add" asp-route-categoryid="@Convert.ToInt32(dr["CategoryID"])"><i class="fa fa-pencil"></i></a>
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="return fun1();"><i class="fa fa-close"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+@*<div class="row">
+    <div class="col-md-8">
+        <h2>Category List</h2>
+    </div>
+    <div id="sample_1_filter" class="dataTable_filter col-md-2">
+    <input type="search" class="form-control" id="sample_1" placeholder="Search" aria-controls="sample_1">
+</div>
+    <div class="col-md-2 text-center">
+        <a class="btn btn-primary" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Add"><i class="bi bi-plus-circle"></i>Add Category</a>
+    </div>
+</div>
+<hr />
+
+<table class="table table-bordered" id="sample_1">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody id="sample_2">
+        @foreach (DataRow dr in Model.Rows)
+        {
+            <tr>
+                <td>@dr["CategoryName"]</td>
+                <td>@Convert.ToDateTime(dr["Created"]).ToString("dd-MM-yyyy")</td>
+                <td>@Convert.ToDateTime(dr["Modified"]).ToString("dd-MM-yyyy")</td>
+                <td class="text-center">
+                    <form method="post" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Delete">
+                        <input type="hidden" name="CategoryID" value="@Convert.ToInt32(dr["CategoryID"].ToString())" />
+                        <button calss="btn btn-info btn-xs icon-edit" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Add" asp-route-categoryid="@Convert.ToInt32(dr["CategoryID"].ToString())"><i class="bi bi-pencil-square"></i></button>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-danger btn-sm icon-trash" onclick="return fun1()"><i class="bi bi-trash3-fill"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>*@
+
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#sample_1").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#sample_2 tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        function fun1() {
+            if (confirm("Are You Sure You Want To Delete?")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+}
+

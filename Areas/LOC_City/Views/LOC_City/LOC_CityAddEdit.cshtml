@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Country Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model AddressBook.Areas.LOC_City.Models.LOC_CityModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-controller="LOC_City" asp-action="Save">
+            @Html.HiddenFor(x=>x.CityID)
+             <div class="form-group">
+                <label>Country Name</label>
+                <select class="form-control" asp-items="@(new SelectList(ViewBag.CountryList, "CountryID", "CountryName").ToList())" asp-for="CountryID" onchange="fnOnStateChange();">
+                    <option>Select Country</option>
+                </select>
+                <span asp-validation-for="CountryID" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label>State Name</label>
+                <select class="form-control" asp-items="@(new SelectList(ViewBag.StateList, "StateID", "StateName").ToList()) " asp-for="StateID">
+                    <option>Select State</option>
+                </select>
+                <span asp-validation-for="StateID" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label>City Name</label>
+                <input type="text" class="form-control" asp-for="CityName" placeholder="Enter City Name" />
+                <span asp-validation-for="CityName" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label>City Code</label>
+                <input type="text" class="form-control" asp-for="CityCode" placeholder="Enter City Code" />
+            </div>
+            <hr />
+            <div class="d-inline">
+                <input type="submit" class="btn btn-success"/>
+                <a class="btn btn-danger" asp-controller="LOC_City" asp-action="Cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function fnOnStateChange(){
+        var CountryID = $("#CountryID").val();
+
+        if (CountryID !==""){
+            $("#StateID").empty();
+            $("#StateID").append($("<option></option>").val("").html("Select State"));
+            $.ajax(
+                {
+                    type:"POST",
+                    contactType: "application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByCountry","LOC_City")" + "?&CountryID=" + CountryID,
+                    data: {},
+                    datatype: "json",
+                    success: function (Result) {
+                        $.each(Result,
+                            function (key, value){
+                                $("#StateID").append($("<option></option>").val(value.stateID).html(value.stateName));
+                            });
+                    },
+                    error: function (r){
+                        alert("Error while loading dropdown.");
+                    }
+                });
+        } else {
+            $("#StateID").empty();
+            $("#StateID").append($("<option></option>").val("").html("Select State"));
+        }
+    }
+</script> 

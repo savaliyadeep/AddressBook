@@ -1,0 +1,240 @@
+﻿@{
+    ViewData["Title"] = "CON_ContactList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data
+@model DataTable
+
+
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i>&nbsp;Home</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a asp-controller="CON_Contact" asp-action="Index">Contact List</a>
+            <i class="fa fa-circle"></i>
+        </li>
+    </ul>
+</div>
+
+
+<div>
+    <h3>Filter</h3>
+    <form method="post" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Filter">
+        <div class="row">
+            <div class="col-md-3">
+                @if (ViewBag.CountryList != null)
+                {
+                    <div class="form-group">
+                        <select class="form-control" name="CountryID" id="CountryID" asp-items="@(new SelectList(ViewBag.CountryList, "CountryID", "CountryName").ToList())">
+                            @*Here First argument Country ID Should Be Consider as Values and second argument CountryName as html that is diaplay in list*@
+                            <option>Select Country</option>
+                        </select>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                @if (ViewBag.StateList != null)
+                {
+                    <div class="form-group">
+                        <select class="form-control" name="StateID" id="StateID" asp-items="@(new SelectList(ViewBag.StateList, "StateID", "StateName").ToList())">
+                            @*Here First argument State ID Should Be Consider as Values and second argument StateName as html that is diaplay in list*@
+                            <option>Select State</option>
+                        </select>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                @if (ViewBag.CityList != null)
+                {
+                    <div class="form-group">
+                        <select class="form-control" name="CityID" id="CityID" asp-items="@(new SelectList(ViewBag.CityList, "CityID", "CityName").ToList())">
+                            @*Here First argument City ID Should Be Consider as Values and second argument CityName as html that is diaplay in list*@
+                            <option>Select City</option>
+                        </select>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a class="btn btn-primary" asp-controller="CON_Contact" asp-action="Cancel">Clear Filter</a>
+            </div>
+        </div>
+    </form>
+</div>
+<hr />
+
+
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+<div class="portlet light bordered margin-top-10">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            @*<i class="icon-settings font-dark"></i>*@
+            <span class="caption-subject bold uppercase">Contact List</span>
+        </div>
+        <div class="actions">
+            <div class="btn-group btn-group-devided">
+                <a asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add" class="btn green btn-rounded"><i class="fa fa-plus"></i>&nbsp;Add Contact</a>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body" style="overflow-x:auto;">
+        <div class="pull-right">
+            <div id="sample_1_filter" class="dataTables_filter">
+                <label>Search Any&nbsp;<input type="text" class="form-control input-sm input-small input-inline" id="sample_1"></label>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered table-hover table-header-fixed dataTable">
+            <thead>
+                <tr class="">
+                    <th>Photo</th>
+                    <th>Contact Name</th>
+                    <th>Category Name</th>
+                    <th>Address</th>
+                    <th>PinCode</th>
+                    <th>City Name</th>
+                    <th>State Name</th>
+                    <th>Country Name</th>
+                    <th>Mobile</th>
+                    <th>Email ID</th>
+                    <th>Birth Date</th>
+                    <th>Gender</th>
+                    <th class="text-center">Created</th>
+                    <th class="text-center">Modified</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="sample_2">
+                @foreach (DataRow dr in Model.Rows)
+                {
+                    <tr>
+                        <td><img src="@dr["PhotoPath"]" class="rounded-circle" style="width:80px;height:80px;" alt="Profile img" onclick="window.open(this.src)" /></td>
+                        <td>@dr["ContactName"]</td>
+                        <td>@dr["CategoryName"]</td>
+                        <td>@dr["Address"]</td>
+                        <td>@dr["PinCode"]</td>
+                        <td>@dr["CityName"]</td>
+                        <td>@dr["StateName"]</td>
+                        <td>@dr["CountryName"]</td>
+                        <td>@dr["Mobile"]</td>
+                        <td>@dr["Email"]</td>
+                        <td>@Convert.ToDateTime(dr["BirthDate"]).ToString("dd-MM-yyyy")</td>
+                        <td>@dr["Gender"]</td>
+                        <td class="text-center">@Convert.ToDateTime(dr["Created"]).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                        <td class="text-center">@Convert.ToDateTime(dr["Modified"]).ToString("dd-MM-yyyy hh:mm:ss")</td>
+                        <td class="text-center">
+                            <form method="post" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Delete">
+                                <input type="hidden" name="ContactID" value="@Convert.ToInt32(dr["ContactID"])">
+                                <a class="btn btn-info btn-xs" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add" asp-route-contactid="@Convert.ToInt32(dr["ContactID"])"><i class="fa fa-pencil"></i></a>
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="return fun1();"><i class="fa fa-close"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+
+@*<div class="row">
+    <div class="col-md-8">
+        <h2>Contact List</h2>
+    </div>
+    <div id="sample_1_filter" class="dataTable_filter col-md-2">
+        <input type="search" class="form-control" id="sample_1" placeholder="Search" aria-controls="sample_1">
+    </div>
+    <div class="col-md-2 text-center">
+        <a class="btn btn-primary" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add"><i class="bi bi-plus-circle"></i>Add Contact</a>
+    </div>
+</div>
+<hr />
+
+<div style="overflow-x:auto;">
+    <table class="table table-striped table-bordered table-hover dt-responsive dataTable no-footer dtr-inline collapsed" width="50%" id="sample_1" role="grid" aria-describedby="sample_1_info" style="width: 150%;">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Contact Name</th>
+                <th>Category Name</th>
+                <th>Address</th>
+                <th>PinCode</th>
+                <th>City Name</th>
+                <th>State Name</th>
+                <th>Country Name</th>
+                <th>Mobile</th>
+                <th>Email ID</th>
+                <th>Birth Date</th>
+                <th>Gender</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow dr in Model.Rows)
+            {
+                <tr>
+                    <td><img src="@dr["PhotoPath"]" class="rounded-circle" style="width:80px;height:80px;" alt="Profile img" onclick="window.open(this.src)" /></td>
+                    <td>@dr["ContactName"]</td>
+                    <td>@dr["CategoryName"]</td>
+                    <td>@dr["Address"]</td>
+                    <td>@dr["PinCode"]</td>
+                    <td>@dr["CityName"]</td>
+                    <td>@dr["StateName"]</td>
+                    <td>@dr["CountryName"]</td>
+                    <td>@dr["Mobile"]</td>
+                    <td>@dr["Email"]</td>
+                    <td>@Convert.ToDateTime(dr["BirthDate"]).ToString("dd-MM-yyyy")</td>
+                    <td>@dr["Gender"]</td>
+                    <td>@Convert.ToDateTime(dr["Created"]).ToString("dd-MM-yyyy")</td>
+                    <td>@Convert.ToDateTime(dr["Modified"]).ToString("dd-MM-yyyy")</td>
+                    <td class="text-center">
+                        <form method="post" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Delete">
+                            <input type="hidden" name="ContactID" value="@Convert.ToInt32(dr["ContactID"].ToString())" />
+                            <button class="btn btn-info icon-edit" asp-area="CON_Contact" asp-controller="CON_Contact" asp-action="Add" asp-route-contactid="@Convert.ToInt32(dr["ContactID"].ToString())"><i class="icon-edit"></i></button>&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-danger icon-trash" onclick="return fun1()"></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>*@
+
+
+
+@section Scripts{
+    <script>
+
+
+        $(document).ready(function () {
+            $('#sample_1').DataTable();
+        });
+
+        //$(document).ready(function () {
+        //    $("#sample_1").on("keyup", function () {
+        //        var value = $(this).val().toLowerCase();
+        //        $("#sample_2 tr").filter(function () {
+        //            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        //        });
+        //    });
+        //});
+
+        function fun1() {
+            if (confirm("Are You Sure You Want To Delete?")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+}
+

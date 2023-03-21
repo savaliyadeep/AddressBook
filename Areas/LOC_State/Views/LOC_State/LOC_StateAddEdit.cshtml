@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Country Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model AddressBook.Areas.LOC_State.Models.LOC_StateModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-area="LOC_State" asp-controller="LOC_State" asp-action="Save">
+            @Html.HiddenFor(x=>x.StateID)
+            <div class="form-group">
+                <label>Country Name</label>
+                <select class="form-control" asp-items="@(new SelectList(ViewBag.CountryList, "CountryID", "CountryName").ToList()) " asp-for="CountryID">
+                    <option>Select Country</option>
+                </select>
+                <span asp-validation-for="CountryID" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label>State Name</label>
+                <input type="text" class="form-control" asp-for="StateName" placeholder="Enter State Name" />
+                <span asp-validation-for="StateName" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label>State Code</label>
+                <input type="text" class="form-control" asp-for="StateCode" placeholder="Enter State Code" />
+            </div>
+            <hr />
+            <div class="d-inline">
+                <input type="submit" class="btn btn-success"/>
+                <a class="btn btn-danger" asp-area="LOC_State" asp-controller="LOC_State" asp-action="Cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

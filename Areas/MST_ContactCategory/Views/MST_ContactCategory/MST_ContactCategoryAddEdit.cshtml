@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Country Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model AddressBook.Areas.MST_ContactCategory.Models.MST_ContactCategoryModel
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Save">
+            @Html.HiddenFor(x=>x.CategoryID)
+            <div class="form-group">
+                <label>Category Name</label>
+                <input type="text" class="form-control" asp-for="CategoryName" placeholder="Enter Category Name" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="d-inline">
+                <input type="submit" class="btn btn-success"/>
+                <a class="btn btn-danger" asp-area="MST_ContactCategory" asp-controller="MST_ContactCategory" asp-action="Cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
