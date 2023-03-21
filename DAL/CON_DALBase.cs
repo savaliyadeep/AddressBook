@@ -4,6 +4,7 @@ using System.Data;
 using AddressBook.Areas.LOC_Country.Models;
 using AddressBook.Areas.CON_Contact.Models;
 using AddressBook.Areas.MST_ContactCategory.Models;
+using AddressBook.BAL;
 
 namespace AddressBook.DAL
 {
@@ -16,7 +17,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_CON_Contact_SelectAll");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -41,7 +42,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_MST_ContactCategory_SelectAll");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -118,7 +119,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_CON_Contact_Insert");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "PhotoPath", SqlDbType.NVarChar, modelCON_Contact.PhotoPath);
                 sqlDB.AddInParameter(cmd, "ContactName", SqlDbType.NVarChar, modelCON_Contact.ContactName);
                 sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, modelCON_Contact.CountryID);
@@ -157,7 +158,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_MST_ContactCategory_Insert");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "CategoryName", SqlDbType.NVarChar, modelMST_ContactCategory.CategoryName);
                 sqlDB.AddInParameter(cmd, "Created", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
@@ -199,6 +200,7 @@ namespace AddressBook.DAL
                 sqlDB.AddInParameter(cmd, "Instagram", SqlDbType.NVarChar, modelCON_Contact.Instagram);
                 sqlDB.AddInParameter(cmd, "Gender", SqlDbType.NVarChar, modelCON_Contact.Gender);
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
 
                 int vReturnValue = sqlDB.ExecuteNonQuery(cmd);
                 return (vReturnValue == -1 ? false : true);
@@ -222,6 +224,7 @@ namespace AddressBook.DAL
                 sqlDB.AddInParameter(cmd, "CategoryID", SqlDbType.Int, modelMST_ContactCategory.CategoryID);
                 sqlDB.AddInParameter(cmd, "CategoryName", SqlDbType.NVarChar, modelMST_ContactCategory.CategoryName);
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
 
                 int vReturnValue = sqlDB.ExecuteNonQuery(cmd);
                 return (vReturnValue == -1 ? false : true);
@@ -310,7 +313,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_CON_Contact_Filter");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 if (CountryID < 1)
                     sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, DBNull.Value);
                 else
@@ -348,7 +351,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_MST_ContactCategory_Filter");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 if (CategoryName == null)
                     sqlDB.AddInParameter(cmd, "CategoryName", SqlDbType.NVarChar, DBNull.Value);
                 else

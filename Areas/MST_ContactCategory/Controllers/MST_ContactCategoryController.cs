@@ -18,13 +18,13 @@ namespace AddressBook.Areas.MST_ContactCategory.Controllers
 
         public MST_ContactCategoryController()
         {
-         
+
         }
 
         #region SelectAll
         public IActionResult Index()
         {
-            DataTable dt = dalCON.dbo_PR_MST_ContactCategory_SelectAll( );
+            DataTable dt = dalCON.dbo_PR_MST_ContactCategory_SelectAll();
             return View("MST_ContactCategoryList", dt);
         }
         #endregion
@@ -67,18 +67,15 @@ namespace AddressBook.Areas.MST_ContactCategory.Controllers
         [HttpPost]
         public IActionResult Save(MST_ContactCategoryModel modelMST_ContactCategory)
         {
-            if (ModelState.IsValid)
+            if (modelMST_ContactCategory.CategoryID == null)
             {
-                if (modelMST_ContactCategory.CategoryID == null)
-                {
-                    if (Convert.ToBoolean(dalCON.dbo_PR_MST_ContactCategory_Insert(modelMST_ContactCategory)))
-                        return RedirectToAction("Index");
-                }
-                else
-                {
-                    if (Convert.ToBoolean(dalCON.dbo_PR_MST_ContactCategory_UpdateByPK(modelMST_ContactCategory)))
-                        return RedirectToAction("Index");
-                }
+                if (Convert.ToBoolean(dalCON.dbo_PR_MST_ContactCategory_Insert(modelMST_ContactCategory)))
+                    return RedirectToAction("Index");
+            }
+            else
+            {
+                if (Convert.ToBoolean(dalCON.dbo_PR_MST_ContactCategory_UpdateByPK(modelMST_ContactCategory)))
+                    return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
         }

@@ -1,6 +1,7 @@
-﻿namespace AddressBook.BAL
+﻿using Microsoft.AspNetCore.Http;
+namespace AddressBook.BAL
 {
-    public class CV
+    public static class CV
     {
         private static IHttpContextAccessor _httpContextAccessor;
 
@@ -12,10 +13,9 @@
         public static string? UserName()
         {
             string? UserName = null;
-            if(_httpContextAccessor.HttpContext.Session.GetString("UserName") != null)
-            {
-                UserName = _httpContextAccessor.HttpContext.Session.GetString("UserName").ToString();
-            }
+
+            UserName = _httpContextAccessor.HttpContext.Session.GetString("UserName").ToString();
+            
 
             return UserName;
         }

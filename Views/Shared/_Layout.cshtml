@@ -57,7 +57,7 @@
                         <li class="dropdown dropdown-user">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 @*<img alt="" class="img-circle" src="~/layouts/layout/img/avatar3_small.jpg" />*@
-                                <span class="username username-hide-on-mobile">@ViewBag.UserName</span>
+                                <span class="username username-hide-on-mobile">@CV.UserName()</span>
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
@@ -67,7 +67,7 @@
                                 </a>
                                 </li>*@
                                 <li>
-                                    <a asp-area="SEC_User" asp-controller="SEC_User" asp-action="Logout">
+                                    <a href="@Url.Action("Logout", "SEC_User", new {Area="SEC_User"})">
                                         <i class="icon-key"></i> Log Out
                                     </a>
                                 </li>

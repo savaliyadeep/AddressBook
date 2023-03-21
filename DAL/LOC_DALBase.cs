@@ -1,6 +1,7 @@
 ﻿using AddressBook.Areas.LOC_City.Models;
 using AddressBook.Areas.LOC_Country.Models;
 using AddressBook.Areas.LOC_State.Models;
+using AddressBook.BAL;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data;
 using System.Data.Common;
@@ -16,7 +17,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_Country_SelectAll");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using(IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -40,7 +41,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_State_SelectAll");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -64,7 +65,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_City_SelectAll");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -263,7 +264,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_Country_Insert");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "CountryName", SqlDbType.NVarChar, modelLOC_Country.CountryName);
                 sqlDB.AddInParameter(cmd, "CountryCode", SqlDbType.NVarChar, modelLOC_Country.CountryCode);
                 sqlDB.AddInParameter(cmd, "Created", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
@@ -286,7 +287,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_State_Insert");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "StateName", SqlDbType.NVarChar, modelLOC_State.StateName);
                 sqlDB.AddInParameter(cmd, "StateCode", SqlDbType.NVarChar, modelLOC_State.StateCode);
                 sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, modelLOC_State.CountryID);
@@ -310,7 +311,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_City_Insert");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "CityName", SqlDbType.NVarChar, modelLOC_City.CityName);
                 sqlDB.AddInParameter(cmd, "CityCode", SqlDbType.NVarChar, modelLOC_City.CityCode);
                 sqlDB.AddInParameter(cmd, "StateID", SqlDbType.Int, modelLOC_City.StateID);
@@ -411,6 +412,7 @@ namespace AddressBook.DAL
                 sqlDB.AddInParameter(cmd, "CountryName", SqlDbType.NVarChar, modelLOC_Country.CountryName);
                 sqlDB.AddInParameter(cmd, "CountryCode", SqlDbType.NVarChar, modelLOC_Country.CountryCode);
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int,CV.UserID());
 
                 int vReturnValue = sqlDB.ExecuteNonQuery(cmd);
                 return (vReturnValue == -1 ? false : true);
@@ -434,6 +436,7 @@ namespace AddressBook.DAL
                 sqlDB.AddInParameter(cmd, "StateCode", SqlDbType.NVarChar, modelLOC_State.StateCode);
                 sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, modelLOC_State.CountryID);
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
 
                 int vReturnValue = sqlDB.ExecuteNonQuery(cmd);
                 return (vReturnValue == -1 ? false : true);
@@ -458,6 +461,7 @@ namespace AddressBook.DAL
                 sqlDB.AddInParameter(cmd, "StateID", SqlDbType.Int, modelLOC_City.StateID);
                 sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, modelLOC_City.CountryID);
                 sqlDB.AddInParameter(cmd, "Modified", SqlDbType.DateTime, DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
 
                 int vReturnValue = sqlDB.ExecuteNonQuery(cmd);
                 return (vReturnValue == -1 ? false : true);
@@ -477,7 +481,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_Country_Filter");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 if (CountryName == null)
                     sqlDB.AddInParameter(cmd, "CountryName", SqlDbType.NVarChar, DBNull.Value);
                 else
@@ -511,7 +515,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_State_Filter");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 if (CountryID < 1)
                     sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, DBNull.Value);
                 else
@@ -549,7 +553,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_City_Filter");
-                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, 1);
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 if (CountryID < 1)
                     sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, DBNull.Value);
                 else

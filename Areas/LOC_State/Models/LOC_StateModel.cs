@@ -6,6 +6,7 @@ namespace AddressBook.Areas.LOC_State.Models
 {
     public class LOC_StateModel
     {
+        public int? UserID { get; set; }
         public int? StateID { get; set; }
         [Required(ErrorMessage = "State Name Is Required.")]
         public string StateName { get; set; }

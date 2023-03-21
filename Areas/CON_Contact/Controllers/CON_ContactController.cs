@@ -21,14 +21,14 @@ namespace AddressBook.Areas.CON_Contact.Controllers
 
         public CON_ContactController()
         {
-            
+
         }
 
         #region SelectAll
 
         public IActionResult Index()
         {
-            
+
             DataTable dt = dalCON.dbo_PR_CON_Contact_SelectAll();
 
             DataTable dt1 = dalLOC.dbo_PR_LOC_Country_SelectForDropDown();
@@ -86,7 +86,7 @@ namespace AddressBook.Areas.CON_Contact.Controllers
         {
 
             CON_ContactModel modelCON_Contact = new CON_ContactModel();
-            
+
             DataTable dt1 = dalLOC.dbo_PR_LOC_Country_SelectForDropDown();
             List<LOC_CountryDDModel> countrydropdown = new List<LOC_CountryDDModel>();
 
@@ -128,7 +128,7 @@ namespace AddressBook.Areas.CON_Contact.Controllers
                     modelCON_Contact.ContactName = dr["ContactName"].ToString();
                     modelCON_Contact.CountryID = Convert.ToInt32(dr["CountryID"]);
                     DataTable dt2 = dalLOC.dbo_PR_LOC_State_SelectForDropDownByCountryID(modelCON_Contact.CountryID);
-                  
+
                     List<LOC_StateDropDownModel> statedropdown = new List<LOC_StateDropDownModel>();
 
                     foreach (DataRow dr1 in dt2.Rows)
@@ -178,11 +178,8 @@ namespace AddressBook.Areas.CON_Contact.Controllers
         [HttpPost]
         public IActionResult Save(CON_ContactModel modelCON_Contact)
         {
-            
             if (ModelState.IsValid)
             {
-                if (modelCON_Contact.File != null)
-                {
                     string FilePath = "wwwroot\\Upload";
                     string path = Path.Combine(Directory.GetCurrentDirectory(), FilePath);
 
@@ -207,7 +204,6 @@ namespace AddressBook.Areas.CON_Contact.Controllers
                     if (Convert.ToBoolean(dalCON.dbo_PR_CON_Contact_UpdateByPK(modelCON_Contact)))
                         return RedirectToAction("Index");
                 }
-            }
             return RedirectToAction("Index");
         }
         #endregion
@@ -236,7 +232,7 @@ namespace AddressBook.Areas.CON_Contact.Controllers
         public IActionResult DropDownByState(int StateID)
         {
             DataTable dt3 = dalLOC.dbo_PR_LOC_City_SelectForDropDownByStateID(StateID);
-         
+
             List<LOC_CityDropDownModel> citydropdown = new List<LOC_CityDropDownModel>();
 
             foreach (DataRow dr in dt3.Rows)
@@ -255,12 +251,12 @@ namespace AddressBook.Areas.CON_Contact.Controllers
         #region Filter
         public IActionResult Filter(int CountryID, int StateID, int CityID)
         {
-            
+
             DataTable dt = dalCON.dbo_PR_CON_Contact_Filter(CountryID, StateID, CityID);
 
             /*To pass Country and State drop down for filter in state list */
             DataTable dt1 = dalLOC.dbo_PR_LOC_Country_SelectForDropDown();
-            
+
             List<LOC_CountryDDModel> countrydropdown1 = new List<LOC_CountryDDModel>();
             foreach (DataRow dr1 in dt1.Rows)
             {
@@ -273,7 +269,7 @@ namespace AddressBook.Areas.CON_Contact.Controllers
 
 
             DataTable dt2 = dalLOC.dbo_PR_LOC_State_SelectForDropDown();
-            
+
             List<LOC_StateDropDownModel> statedropdown1 = new List<LOC_StateDropDownModel>();
             foreach (DataRow dr1 in dt2.Rows)
             {
@@ -285,7 +281,7 @@ namespace AddressBook.Areas.CON_Contact.Controllers
             ViewBag.StateList = statedropdown1;
 
             DataTable dt3 = dalLOC.dbo_PR_LOC_City_SelectForDropDown();
-            
+
             List<LOC_CityDropDownModel> citydropdown1 = new List<LOC_CityDropDownModel>();
             foreach (DataRow dr2 in dt3.Rows)
             {

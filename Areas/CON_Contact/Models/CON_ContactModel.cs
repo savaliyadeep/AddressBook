@@ -6,6 +6,7 @@ namespace AddressBook.Areas.CON_Contact.Models
 {
     public class CON_ContactModel
     {
+        public int? UserID { get; set; }
         public int? ContactID { get; set; }
         public IFormFile File { get; set; }
         public string PhotoPath { get; set; }

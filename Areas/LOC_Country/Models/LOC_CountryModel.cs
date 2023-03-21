@@ -6,6 +6,7 @@ namespace AddressBook.Areas.LOC_Country.Models
 {
     public class LOC_CountryModel
     {
+        public int? UserID { get; set; }
         public int? CountryID { get; set; }
         [Required]
         [DisplayName("Country Name Is Required.")]

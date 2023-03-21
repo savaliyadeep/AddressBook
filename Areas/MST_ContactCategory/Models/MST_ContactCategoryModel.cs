@@ -6,6 +6,7 @@ namespace AddressBook.Areas.MST_ContactCategory.Models
 {
     public class MST_ContactCategoryModel
     {
+        public int? UserID { get; set; }
         public int? CategoryID { get; set; }
         [Required(ErrorMessage = "Category Name Is Required.")]
         public string CategoryName { get; set; }
