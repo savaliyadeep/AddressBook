@@ -10,6 +10,8 @@ namespace AddressBook.DAL
 {
     public class CON_DALBase : DALHelper
     {
+        #region SelectAll
+
         #region dbo.PR_CON_Contact_SelectAll
         public DataTable dbo_PR_CON_Contact_SelectAll()
         {
@@ -59,6 +61,10 @@ namespace AddressBook.DAL
         }
         #endregion
 
+        #endregion
+
+        #region SelectByPK
+
         #region Method: dbo_PR_CON_Contact_SelectByPK
 
         public DataTable dbo_PR_CON_Contact_SelectByPK(int? ContactID)
@@ -84,7 +90,7 @@ namespace AddressBook.DAL
         }
 
         #endregion
-
+       
         #region Method: dbo_PR_MST_ContactCayegory_SelectByPK
 
         public DataTable dbo_PR_MST_ContactCayegory_SelectByPK(int? CategoryID)
@@ -110,6 +116,10 @@ namespace AddressBook.DAL
         }
 
         #endregion
+
+        #endregion
+
+        #region Insert
 
         #region Method: dbo_PR_CON_Contact_Insert
 
@@ -174,6 +184,10 @@ namespace AddressBook.DAL
 
         #endregion
 
+        #endregion
+
+        #region Update
+
         #region Method: dbo_PR_CON_Contact_UpdateByPK
 
         public bool? dbo_PR_CON_Contact_UpdateByPK(CON_ContactModel modelCON_Contact)
@@ -237,6 +251,10 @@ namespace AddressBook.DAL
 
         #endregion
 
+        #endregion
+
+        #region Delete
+
         #region Method: dbo_PR_CON_Contact_DeleteByPK
 
         public bool? dbo_PR_CON_Contact_DeleteByPK(int? ContactID)
@@ -280,6 +298,10 @@ namespace AddressBook.DAL
 
         #endregion
 
+        #endregion
+
+        #region DropDown
+
         #region Method: dbo_PR_MST_ContactCategory_SelectForDropDown
 
         public DataTable dbo_PR_MST_ContactCategory_SelectForDropDown()
@@ -288,6 +310,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("PR_MST_ContactCategory_SelectForDropDown");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -304,6 +327,10 @@ namespace AddressBook.DAL
         }
 
         #endregion
+
+        #endregion
+
+        #region Filter
 
         #region Method: dbo_PR_CON_Contcat_Filter
 
@@ -370,6 +397,8 @@ namespace AddressBook.DAL
                 return null;
             }
         }
+
+        #endregion
 
         #endregion
     }

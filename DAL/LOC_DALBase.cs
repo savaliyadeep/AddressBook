@@ -10,6 +10,8 @@ namespace AddressBook.DAL
 {
     public class LOC_DALBase : DALHelper
     {
+        #region SelectAll
+
         #region Method: dbo.PR_LOC_Country_SelectAll
         public DataTable dbo_PR_LOC_Country_SelectAll()
         {
@@ -82,6 +84,10 @@ namespace AddressBook.DAL
         }
         #endregion
 
+        #endregion
+
+        #region DropDown
+
         #region Method: dbo_PR_LOC_Country_SelectForDropDown
         public DataTable dbo_PR_LOC_Country_SelectForDropDown()
         {
@@ -89,6 +95,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("PR_LOC_Country_SelectForDropDown");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -112,6 +119,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_State_SelectForDropDown");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -135,6 +143,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString); 
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_State_SelectDropDownByCountryID");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "CountryID", SqlDbType.Int, CountryID);
                 DataTable dt = new DataTable();
 
@@ -160,6 +169,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_City_SelectForDropDown");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 DataTable dt = new DataTable();
 
                 using (IDataReader dr = sqlDB.ExecuteReader(cmd))
@@ -183,6 +193,7 @@ namespace AddressBook.DAL
             {
                 SqlDatabase sqlDB = new SqlDatabase(myConnectionString);
                 DbCommand cmd = sqlDB.GetStoredProcCommand("dbo.PR_LOC_City_SelectDropDownByStateID");
+                sqlDB.AddInParameter(cmd, "UserID", SqlDbType.Int, CV.UserID());
                 sqlDB.AddInParameter(cmd, "StateID", SqlDbType.Int, StateID);
                 DataTable dt = new DataTable();
 
@@ -199,6 +210,10 @@ namespace AddressBook.DAL
             }
         }
         #endregion
+
+        #endregion
+
+        #region Delete
 
         #region Method: dbo_PR_LOC_Country_DeleteByPK
         public bool? dbo_PR_LOC_Country_DeleteByPK(int? CountryID)
@@ -256,6 +271,10 @@ namespace AddressBook.DAL
             }
         }
         #endregion
+
+        #endregion
+
+        #region Insert
 
         #region Method: dbo_PR_LOC_Country_Insert
         public bool? dbo_PR_LOC_Country_Insert(LOC_CountryModel modelLOC_Country)
@@ -329,6 +348,10 @@ namespace AddressBook.DAL
         }
         #endregion
 
+        #endregion
+
+        #region SelectByPK
+
         #region Method: dbo_PR_LOC_Country_SelectByPK
         public DataTable dbo_PR_LOC_Country_SelectByPK(int? CountryID)
         {
@@ -401,6 +424,10 @@ namespace AddressBook.DAL
         }
         #endregion
 
+        #endregion
+
+        #region Update
+
         #region Method: dbo_PR_LOC_Country_UpdateByPK
         public bool? dbo_PR_LOC_Country_UpdateByPK(LOC_CountryModel modelLOC_Country)
         {
@@ -472,6 +499,10 @@ namespace AddressBook.DAL
             }
         }
         #endregion
+
+        #endregion
+
+        #region Filter
 
         #region Method: dbo_PR_LOC_Country_Filter
 
@@ -584,6 +615,8 @@ namespace AddressBook.DAL
                 return null;
             }
         }
+
+        #endregion
 
         #endregion
 
